@@ -4,8 +4,6 @@ const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
     const { username, password } = req.body;
-    console.log(req.body);
-
     const db = getDB();
     const users = db.collection("users");
     try {
