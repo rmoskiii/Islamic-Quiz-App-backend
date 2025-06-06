@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import { useAuth } from "../context/AuthContext";
 
 function Quiz() {
+    const { user } = useAuth();
     const [questions, setQuestions] = useState([]);
     const [current, setCurrent] = useState(0);
     const [selected, setSelected] = useState(null);
     const [showExplanation, setShowExplanation] = useState(false);
     const [score, setScore] = useState(0);
     const [done, setDone] = useState(false);
-    const { user } = useAuth();
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -23,6 +24,7 @@ function Quiz() {
         fetchQuestions();
     }, []);
 
+    if (!user) return <p>Please login to access the quiz.</p>;
     if (questions.length === 0) return <p>Loading...</p>;
 
     const currentQ = questions[current];
@@ -47,51 +49,55 @@ function Quiz() {
     };
 
     return (
-        <div>
-            <Navbar /> {/* ✅ This is your nav at the top of the page */}
+        <div style={{ padding: 20 }}>
+            <Navbar />
+            <h2>🧠 Islam Quiz</h2>
 
-            <div style={{ padding: 20 }}>
-                <h2>🧠 Islam Quiz</h2>
-
-                {done ? (
-                    <div>
-                        <h3>Your score: {score} / {questions.length}</h3>
-                        <p>Well done! 🎉</p>
-                    </div>
-                ) : (
-                    <>
-                        <h3>{currentQ.question}</h3>
-                        <ul style={{ listStyle: "none", padding: 0 }}>
-                            {currentQ.options.map((choice, i) => (
-                                <li key={i}>
-                                    <button
-                                        style={{
-                                            backgroundColor: selected === i
+            {done ? (
+                <div>
+                    <h3>
+                        Your score: {score} / {questions.length}
+                    </h3>
+                    <p>Well done! 🎉</p>
+                </div>
+            ) : (
+                <>
+                    <h3>{currentQ.question}</h3>
+                    <ul style={{ listStyle: "none", padding: 0 }}>
+                        {currentQ.options.map((choice, i) => (
+                            <li key={i}>
+                                <button
+                                    style={{
+                                        backgroundColor:
+                                            selected === i
                                                 ? i === currentQ.correctAnswer
                                                     ? "lightgreen"
                                                     : "lightcoral"
                                                 : "white",
-                                            margin: "5px",
-                                        }}
-                                        onClick={() => handleAnswer(i)}
-                                        disabled={selected !== null}
-                                    >
-                                        {choice}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
+                                        margin: "5px",
+                                    }}
+                                    onClick={() => handleAnswer(i)}
+                                    disabled={selected !== null}
+                                >
+                                    {choice}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
 
-                        {showExplanation && (
-                            <div style={{ marginTop: 10 }}>
-                                <p><strong>Explanation:</strong> {currentQ.explanation}</p>
-                                <p><strong>Reference:</strong> {currentQ.reference}</p>
-                                <button onClick={next}>Next</button>
-                            </div>
-                        )}
-                    </>
-                )}
-            </div>
+                    {showExplanation && (
+                        <div style={{ marginTop: 10 }}>
+                            <p>
+                                <strong>Explanation:</strong> {currentQ.explanation}
+                            </p>
+                            <p>
+                                <strong>Reference:</strong> {currentQ.reference}
+                            </p>
+                            <button onClick={next}>Next</button>
+                        </div>
+                    )}
+                </>
+            )}
         </div>
     );
 }

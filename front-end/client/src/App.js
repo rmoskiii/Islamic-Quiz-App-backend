@@ -5,18 +5,54 @@ import Signup from "./views/Register";
 import Quiz from "./views/Quiz";
 import Leaderboard from "./views/Leaderboard";
 
-function App() {
-  return (
-      <Router>
+import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
 
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/quiz" element={<Quiz />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-        </Routes>
-      </Router>
-  );
+function App() {
+    return (
+        <Router>
+            <Routes>
+                {/* Public routes */}
+                <Route
+                    path="/login"
+                    element={
+                        <PublicRoute>
+                            <Login />
+                        </PublicRoute>
+                    }
+                />
+                <Route
+                    path="/signup"
+                    element={
+                        <PublicRoute>
+                            <Signup />
+                        </PublicRoute>
+                    }
+                />
+
+                {/* Protected routes */}
+                <Route
+                    path="/quiz"
+                    element={
+                        <PrivateRoute>
+                            <Quiz />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/leaderboard"
+                    element={
+                        <PrivateRoute>
+                            <Leaderboard />
+                        </PrivateRoute>
+                    }
+                />
+
+                {/* Optional: Redirect or landing page */}
+                <Route path="*" element={<Login />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;

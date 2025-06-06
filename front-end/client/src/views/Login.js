@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
     const [form, setForm] = useState({ username: "", password: "" });
@@ -17,7 +18,8 @@ function Login() {
         e.preventDefault();
         try {
             const res = await axios.post("http://localhost:3000/api/auth/login", form);
-            localStorage.setItem("token", res.data.token);
+            const userData = { username: form.username, token: res.data.token };
+            login(userData);
             navigate("/quiz");
         } catch (err) {
             setError("Login failed");
@@ -31,8 +33,22 @@ function Login() {
                 <h2>Login</h2>
                 {error && <p style={{ color: "red" }}>{error}</p>}
                 <form onSubmit={handleSubmit}>
-                    <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} required />
-                    <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        value={form.username}
+                        onChange={handleChange}
+                        required
+                    />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={form.password}
+                        onChange={handleChange}
+                        required
+                    />
                     <button type="submit">Login</button>
                 </form>
             </div>

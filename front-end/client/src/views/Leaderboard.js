@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Navbar from "../components/Navbar";
+import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 
 function Leaderboard() {
-    const [leaders, setLeaders] = useState([]);
     const { user } = useAuth();
+    const [leaders, setLeaders] = useState([]);
 
     useEffect(() => {
         const fetchLeaderboard = async () => {
@@ -19,18 +20,19 @@ function Leaderboard() {
     }, []);
 
     return (
-        <div>
+        <div style={{ padding: 20 }}>
             <Navbar />
-            <div style={{ padding: 20 }}>
-                <h2>🏆 Leaderboard</h2>
+            <h2>Leaderboard</h2>
+            {!user && <p>Please login to see the leaderboard.</p>}
+            {user && (
                 <ul>
-                    {leaders.map((user, index) => (
-                        <li key={user._id}>
-                            {index + 1}. {user.username} — {user.score} pts
+                    {leaders.map((leader, index) => (
+                        <li key={index}>
+                            {leader.username}: {leader.score}
                         </li>
                     ))}
                 </ul>
-            </div>
+            )}
         </div>
     );
 }
