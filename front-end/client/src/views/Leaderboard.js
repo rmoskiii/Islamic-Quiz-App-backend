@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 
 function Leaderboard() {
     const [leaders, setLeaders] = useState([]);
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchLeaderboard = async () => {

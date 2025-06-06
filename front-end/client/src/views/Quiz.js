@@ -9,6 +9,7 @@ function Quiz() {
     const [showExplanation, setShowExplanation] = useState(false);
     const [score, setScore] = useState(0);
     const [done, setDone] = useState(false);
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchQuestions = async () => {

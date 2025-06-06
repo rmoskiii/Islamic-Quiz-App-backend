@@ -7,6 +7,7 @@ function Login() {
     const [form, setForm] = useState({ username: "", password: "" });
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
