@@ -1,0 +1,55 @@
+.container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    text-align: center;
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    color: #1e3a8a;
+}
+
+.message {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #334155;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
+    align-items: center;
+}
+
+.rank {
+    font-weight: bold;
+    color: #1e40af;
+    min-width: 40px;
+}
+
+.username {
+    flex: 1;
+    margin-left: 1rem;
+    color: #0f172a;
+}
+
+.score {
+    font-weight: bold;
+    color: #10b981;
+}

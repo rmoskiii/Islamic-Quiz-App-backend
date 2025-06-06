@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../context/AuthContext";
+import styles from "./Register.module.css"; // CSS module for scoped styles
 
 function Signup() {
     const [form, setForm] = useState({ username: "", password: "" });
@@ -19,21 +20,22 @@ function Signup() {
         try {
             const res = await axios.post("http://localhost:3000/api/auth/signup", form);
             const userData = { username: form.username, token: res.data.token };
-            login(userData);
-            navigate("/quiz");
+            login(userData); // update global auth state
+            navigate("/quiz"); // go to quiz page after successful signup
         } catch (err) {
             setError("Signup failed");
         }
     };
 
     return (
-        <div>
+        <>
             <Navbar />
-            <div style={{ padding: 20 }}>
-                <h2>Signup</h2>
-                {error && <p style={{ color: "red" }}>{error}</p>}
+            <div className={styles.container}>
+                <h2 className={styles.title}>Signup</h2>
+                {error && <p className={styles.error}>{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <input
+                        className={styles.input}
                         type="text"
                         name="username"
                         placeholder="Username"
@@ -42,6 +44,7 @@ function Signup() {
                         required
                     />
                     <input
+                        className={styles.input}
                         type="password"
                         name="password"
                         placeholder="Password"
@@ -49,10 +52,12 @@ function Signup() {
                         onChange={handleChange}
                         required
                     />
-                    <button type="submit">Signup</button>
+                    <button type="submit" className={styles.button}>
+                        Signup
+                    </button>
                 </form>
             </div>
-        </div>
+        </>
     );
 }
 

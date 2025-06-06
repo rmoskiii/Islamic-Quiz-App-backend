@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../context/AuthContext";
+import styles from "./Login.module.css";
 
 function Login() {
     const [form, setForm] = useState({ username: "", password: "" });
@@ -29,11 +30,12 @@ function Login() {
     return (
         <div>
             <Navbar />
-            <div style={{ padding: 20 }}>
-                <h2>Login</h2>
-                {error && <p style={{ color: "red" }}>{error}</p>}
+            <div className={styles.container}>
+                <h2 className={styles.title}>Login</h2>
+                {error && <p className={styles.error}>{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <input
+                        className={styles.input}
                         type="text"
                         name="username"
                         placeholder="Username"
@@ -42,6 +44,7 @@ function Login() {
                         required
                     />
                     <input
+                        className={styles.input}
                         type="password"
                         name="password"
                         placeholder="Password"
@@ -49,7 +52,9 @@ function Login() {
                         onChange={handleChange}
                         required
                     />
-                    <button type="submit">Login</button>
+                    <button type="submit" className={styles.button}>
+                        Login
+                    </button>
                 </form>
             </div>
         </div>

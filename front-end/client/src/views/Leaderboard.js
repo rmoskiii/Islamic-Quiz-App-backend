@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
+import styles from "./Leaderboard.module.css";
 
 function Leaderboard() {
     const { user } = useAuth();
@@ -20,20 +21,27 @@ function Leaderboard() {
     }, []);
 
     return (
-        <div style={{ padding: 20 }}>
+        <>
             <Navbar />
-            <h2>Leaderboard</h2>
-            {!user && <p>Please login to see the leaderboard.</p>}
-            {user && (
-                <ul>
-                    {leaders.map((leader, index) => (
-                        <li key={index}>
-                            {leader.username}: {leader.score}
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
+            <div className={styles.container}>
+                <h2 className={styles.title}>🏆 Leaderboard</h2>
+                {!user ? (
+                    <p className={styles.message}>Please login to see the leaderboard.</p>
+                ) : leaders.length === 0 ? (
+                    <p className={styles.message}>No scores yet. Be the first to play!</p>
+                ) : (
+                    <ul className={styles.list}>
+                        {leaders.map((leader, index) => (
+                            <li key={index} className={styles.item}>
+                                <span className={styles.rank}>#{index + 1}</span>
+                                <span className={styles.username}>{leader.username}</span>
+                                <span className={styles.score}>{leader.score} pts</span>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+        </>
     );
 }
 

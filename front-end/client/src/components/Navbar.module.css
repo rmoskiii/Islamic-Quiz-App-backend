@@ -1,0 +1,38 @@
+/* Navbar.module.css */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f0f4f8;
+    border-bottom: 1px solid #ccc;
+}
+
+.links {
+    display: flex;
+    gap: 1rem;
+}
+
+.userSection {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.greeting {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.logoutButton {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.logoutButton:hover {
+    background-color: #c0392b;
+}

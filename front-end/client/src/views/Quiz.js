@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../context/AuthContext";
+import styles from "./Quiz.module.css";
 
 function Quiz() {
     const { user } = useAuth();
@@ -24,15 +25,14 @@ function Quiz() {
         fetchQuestions();
     }, []);
 
-    if (!user) return <p>Please login to access the quiz.</p>;
-    if (questions.length === 0) return <p>Loading...</p>;
+    if (!user) return <p className={styles.message}>Please login to access the quiz.</p>;
+    if (questions.length === 0) return <p className={styles.message}>Loading...</p>;
 
     const currentQ = questions[current];
 
     const handleAnswer = (choiceIndex) => {
         setSelected(choiceIndex);
         setShowExplanation(true);
-
         if (choiceIndex === currentQ.correctAnswer) {
             setScore(score + 1);
         }
@@ -49,56 +49,52 @@ function Quiz() {
     };
 
     return (
-        <div style={{ padding: 20 }}>
+        <>
             <Navbar />
-            <h2>🧠 Islam Quiz</h2>
+            <div className={styles.quizContainer}>
+                <h2 className={styles.title}>🧠 Islam Quiz</h2>
 
-            {done ? (
-                <div>
-                    <h3>
-                        Your score: {score} / {questions.length}
-                    </h3>
-                    <p>Well done! 🎉</p>
-                </div>
-            ) : (
-                <>
-                    <h3>{currentQ.question}</h3>
-                    <ul style={{ listStyle: "none", padding: 0 }}>
-                        {currentQ.options.map((choice, i) => (
-                            <li key={i}>
-                                <button
-                                    style={{
-                                        backgroundColor:
-                                            selected === i
+                {done ? (
+                    <div className={styles.result}>
+                        <h3>Your score: {score} / {questions.length}</h3>
+                        <p>Well done! 🎉</p>
+                    </div>
+                ) : (
+                    <div>
+                        <h3 className={styles.question}>{currentQ.question}</h3>
+                        <ul className={styles.options}>
+                            {currentQ.options.map((choice, i) => (
+                                <li key={i}>
+                                    <button
+                                        className={`${styles.optionButton} ${
+                                            selected !== null
                                                 ? i === currentQ.correctAnswer
-                                                    ? "lightgreen"
-                                                    : "lightcoral"
-                                                : "white",
-                                        margin: "5px",
-                                    }}
-                                    onClick={() => handleAnswer(i)}
-                                    disabled={selected !== null}
-                                >
-                                    {choice}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
+                                                    ? styles.correct
+                                                    : selected === i
+                                                        ? styles.incorrect
+                                                        : ""
+                                                : ""
+                                        }`}
+                                        onClick={() => handleAnswer(i)}
+                                        disabled={selected !== null}
+                                    >
+                                        {choice}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
 
-                    {showExplanation && (
-                        <div style={{ marginTop: 10 }}>
-                            <p>
-                                <strong>Explanation:</strong> {currentQ.explanation}
-                            </p>
-                            <p>
-                                <strong>Reference:</strong> {currentQ.reference}
-                            </p>
-                            <button onClick={next}>Next</button>
-                        </div>
-                    )}
-                </>
-            )}
-        </div>
+                        {showExplanation && (
+                            <div className={styles.explanation}>
+                                <p><strong>Explanation:</strong> {currentQ.explanation}</p>
+                                <p><strong>Reference:</strong> {currentQ.reference}</p>
+                                <button onClick={next} className={styles.nextButton}>Next</button>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+        </>
     );
 }
 

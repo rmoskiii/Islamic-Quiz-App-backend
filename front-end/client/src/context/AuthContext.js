@@ -1,18 +1,18 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null); // user object
-    const [loading, setLoading] = useState(true); // loading auth state
+    const [user, setUser] = useState(null); // e.g., { username, token }
+    const [loading, setLoading] = useState(true);
 
+    // Load user from localStorage on mount
     useEffect(() => {
-        // On mount, try to load user from localStorage
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
-        setLoading(false); // done checking auth state
+        setLoading(false); // Done checking localStorage
     }, []);
 
     const login = (userData) => {

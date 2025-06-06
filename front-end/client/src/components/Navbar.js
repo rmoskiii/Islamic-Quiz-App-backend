@@ -1,9 +1,10 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import styles from "./Navbar.module.css";
 
 function Navbar() {
-    const { user, logout, loading } = useAuth(); // <-- include loading
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -11,25 +12,9 @@ function Navbar() {
         navigate("/login");
     };
 
-    if (loading) {
-        return (
-            <nav style={{ padding: "1rem" }}>
-                <span>Loading...</span>
-            </nav>
-        );
-    }
-
     return (
-        <nav
-            style={{
-                display: "flex",
-                gap: "1rem",
-                padding: "1rem",
-                justifyContent: "space-between",
-                alignItems: "center",
-            }}
-        >
-            <div>
+        <nav className={styles.nav}>
+            <div className={styles.links}>
                 <Link to="/quiz">Quiz</Link>
                 <Link to="/leaderboard">Leaderboard</Link>
                 {!user && (
@@ -41,11 +26,9 @@ function Navbar() {
             </div>
 
             {user && (
-                <div>
-                    <span style={{ marginRight: "1rem" }}>
-                        👋 As-salamu alaykum, {user.username}
-                    </span>
-                    <button onClick={handleLogout}>Logout</button>
+                <div className={styles.userSection}>
+                    <span className={styles.greeting}>👋 As-salamu alaykum, {user.username}</span>
+                    <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
                 </div>
             )}
         </nav>
