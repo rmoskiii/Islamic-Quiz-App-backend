@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-function Login() {
+function Signup() {
     const [form, setForm] = useState({ username: "", password: "" });
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -15,11 +15,10 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:3000/api/auth/login", form);
-            localStorage.setItem("token", res.data.token);
-            navigate("/quiz");
+            await axios.post("http://localhost:3000/api/auth/register", form);
+            navigate("/login");
         } catch (err) {
-            setError("Login failed");
+            setError("Signup failed");
         }
     };
 
@@ -27,16 +26,16 @@ function Login() {
         <div>
             <Navbar />
             <div style={{ padding: 20 }}>
-                <h2>Login</h2>
+                <h2>Sign Up</h2>
                 {error && <p style={{ color: "red" }}>{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} required />
                     <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
-                    <button type="submit">Login</button>
+                    <button type="submit">Register</button>
                 </form>
             </div>
         </div>
     );
 }
 
-export default Login;
+export default Signup;
