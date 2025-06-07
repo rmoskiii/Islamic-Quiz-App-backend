@@ -36,3 +36,10 @@
 .logoutButton:hover {
     background-color: #c0392b;
 }
+
+@media (max-width: 600px) {
+    .someClass {
+        flex-direction: column;
+    }
+}
+

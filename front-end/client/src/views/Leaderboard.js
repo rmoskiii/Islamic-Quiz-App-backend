@@ -31,14 +31,28 @@ function Leaderboard() {
                     <p className={styles.message}>No scores yet. Be the first to play!</p>
                 ) : (
                     <ul className={styles.list}>
-                        {leaders.map((leader, index) => (
-                            <li key={index} className={styles.item}>
-                                <span className={styles.rank}>#{index + 1}</span>
-                                <span className={styles.username}>{leader.username}</span>
-                                <span className={styles.score}>{leader.score} pts</span>
-                            </li>
-                        ))}
+                        {leaders.map((leader, index) => {
+                            const isCurrentUser = leader.username === user.username;
+                            const initials = leader.username.slice(0, 2).toUpperCase();
+
+                            return (
+                                <li
+                                    key={index}
+                                    className={`${styles.item} ${isCurrentUser ? styles.currentUser : ""}`}
+                                >
+                                    <div className={styles.avatar}>{initials}</div>
+                                    <div className={styles.details}>
+          <span className={styles.username}>
+            {leader.username}
+              {isCurrentUser && <span className={styles.youBadge}> (You)</span>}
+          </span>
+                                        <span className={styles.score}>{leader.score} pts</span>
+                                    </div>
+                                </li>
+                            );
+                        })}
                     </ul>
+
                 )}
             </div>
         </>

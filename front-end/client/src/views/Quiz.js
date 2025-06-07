@@ -53,6 +53,20 @@ function Quiz() {
             <Navbar />
             <div className={styles.quizContainer}>
                 <h2 className={styles.title}>🧠 Islam Quiz</h2>
+                {/* Progress Info */}
+                <p className={styles.progressText}>
+                    Question {current + 1} of {questions.length}
+                </p>
+                {/* Progress Bar */}
+                <div className={styles.progressWrapper}>
+                    <div
+                        className={styles.progressBar}
+                        style={{
+                            width: `${((current + 1) / questions.length) * 100}%`,
+                        }}
+                    ></div>
+                </div>
+
 
                 {done ? (
                     <div className={styles.result}>

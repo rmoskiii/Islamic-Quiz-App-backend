@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../context/AuthContext";
 import styles from "./Login.module.css";
+import msgStyles from "../components/Messages.module.css";
 
 function Login() {
     const [form, setForm] = useState({ username: "", password: "" });
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState(""); // ✅ success state
     const navigate = useNavigate();
     const { login } = useAuth();
 
@@ -17,13 +19,17 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
+        setSuccess("");
         try {
             const res = await axios.post("http://localhost:3000/api/auth/login", form);
             const userData = { username: form.username, token: res.data.token };
             login(userData);
-            navigate("/quiz");
+            setSuccess("Login successful, Alhamdulillah! ✅");
+
+            setTimeout(() => navigate("/quiz"), 1500);
         } catch (err) {
-            setError("Login failed");
+            setError("Login failed ❌");
         }
     };
 
@@ -32,7 +38,10 @@ function Login() {
             <Navbar />
             <div className={styles.container}>
                 <h2 className={styles.title}>Login</h2>
-                {error && <p className={styles.error}>{error}</p>}
+
+                {success && <p className={msgStyles.success}>{success}</p>}
+                {error && <p className={msgStyles.error}>{error}</p>}
+
                 <form onSubmit={handleSubmit}>
                     <input
                         className={styles.input}

@@ -47,9 +47,44 @@
     flex: 1;
     margin-left: 1rem;
     color: #0f172a;
+    display: block;
 }
 
 .score {
     font-weight: bold;
     color: #10b981;
+}
+.currentUser {
+    background-color: #ecfdf5; /* light green background */
+    border-color: #34d399;    /* green border */
+}
+
+.youBadge {
+    color: #10b981;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.avatar {
+    background-color: #10b981;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.details {
+    flex-grow: 1;
+}
+
+@media (max-width: 600px) {
+    .someClass {
+        flex-direction: column;
+    }
 }
